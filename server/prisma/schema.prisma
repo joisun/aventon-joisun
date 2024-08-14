@@ -12,3 +12,14 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Users {
+  id      String @id @default(uuid())
+  email   String @unique
+  name    String
+  address String
+  avatar  String
+  f_color String
+  f_food  String
+  date    String
+}

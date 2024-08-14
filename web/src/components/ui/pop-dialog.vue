@@ -3,6 +3,13 @@ import { nextTick, onMounted, ref, watch } from 'vue'
 import { CloseIcon } from '../icons'
 import Button from './Button.vue'
 
+defineOptions({
+  inheritAttrs: false
+})
+defineProps<{
+    title?: string
+}>()
+
 const triggerRef = ref<null | HTMLDivElement>(null)
 const dialogRef = ref<null | HTMLDialogElement>(null)
 const cacheLeftTop = { left: 0, top: 0 } // 缓存dialog 展开时的位置，用于动画关闭的起始状态
@@ -110,12 +117,15 @@ const aniClose = () => {
       <!-- top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -->
       <div
         ref="dialogRef"
-        class="absolute origin-top-left w-[500px] h-[500px] bg-background-secondary rounded-lg overflow-hidden text-foreground-primary"
+        class="absolute origin-top-left min-w-[200px] min-h-[200px] bg-background-secondary rounded-lg overflow-hidden text-foreground-primary"
+        :class="$attrs.class"
+        
       >
         <slot name="header">
           <header
-            class="h-12 border-b border-border p-2 flex justify-end items-center"
+            class="h-12 border-b border-border p-2 flex justify-between items-center"
           >
+            <p class="text-foreground-primary font-medium" v-if="title">{{ title }}</p>
             <Button
               @click="handleClose"
               class="!h-8 !w-8 !p-0 !bg-transparent hover:!border-foreground-secondary border !border-border"

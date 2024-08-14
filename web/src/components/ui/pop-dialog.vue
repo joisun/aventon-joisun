@@ -21,36 +21,44 @@ const handleClose = () => {
 const handleConfirm = () => {
   emit('confirm')
 }
-watch(modelVisible, (v) => {
-  if (!triggerRef.value) return
-  // show
-  if (modelVisible.value) {
-    // 动态计算 modal 的宽高
-    nextTick(() => {
-      const { offsetHeight: dh, offsetWidth: dw } = dialogRef.value!
-      // 当前视口的宽高
-      const vw = document.documentElement.clientWidth
-      const vh = document.documentElement.clientHeight
-      // 计算 dialog 的目标位置
-      const toLeft = vw / 2 - dw / 2
-      const toTop = vh / 2 - dh / 2
+watch(
+  modelVisible,
+  (v) => {
+    // show
+    if (modelVisible.value) {
+      // 动态计算 modal 的宽高
+      nextTick(() => {
+        const { offsetHeight: dh, offsetWidth: dw } = dialogRef.value! || {
+          offsetHeight: 0,
+          offsetWidth: 0,
+        }
+        // 当前视口的宽高
+        const vw = document.documentElement.clientWidth
+        const vh = document.documentElement.clientHeight
+        // 计算 dialog 的目标位置
+        const toLeft = vw / 2 - dw / 2
+        const toTop = vh / 2 - dh / 2
 
-      // 缓存一下 计算后的结果,用于关闭动画
-      cacheLeftTop.left = toLeft
-      cacheLeftTop.top = toTop
-      aniShow(toLeft, toTop)
-    })
-  } else {
-    // close
-    delayCloseSwitcher.value = true
-    aniClose()
+        // 缓存一下 计算后的结果,用于关闭动画
+        cacheLeftTop.left = toLeft
+        cacheLeftTop.top = toTop
+        aniShow(toLeft, toTop)
+      })
+    } else {
+      // close
+      delayCloseSwitcher.value = true
+      aniClose()
 
-    setTimeout(() => {
-      // 动画完成后关闭 dialog
-      delayCloseSwitcher.value = false
-    }, aniDuration)
-  }
-})
+      setTimeout(() => {
+        // 动画完成后关闭 dialog
+        delayCloseSwitcher.value = false
+      }, aniDuration)
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 const aniShow = (toLeft: number, toTop: number) => {
   if (!triggerRef.value) return
   // trigger 元素的位置

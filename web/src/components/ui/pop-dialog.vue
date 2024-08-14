@@ -4,16 +4,7 @@ import { CloseIcon } from '../icons'
 import Button from './Button.vue'
 import { useViewport } from '@/hooks/useViewport'
 
-const { vh, vw } = useViewport()
-const dialogPosition = computed(() => {
-  if (dialogRef.value) {
-    const { offsetHeight, offsetWidth } = dialogRef.value
-    return {
-      left: vw.value / 2 - offsetWidth / 2,
-      top: vh.value / 2 - offsetHeight / 2,
-    }
-  }
-})
+
 
 defineOptions({
   inheritAttrs: false,
@@ -78,6 +69,22 @@ watch(
     immediate: true,
   },
 )
+
+const { vh, vw } = useViewport()
+const dialogPosition = computed(() => {
+  if (dialogRef.value) {
+    const { offsetHeight, offsetWidth } = dialogRef.value
+    const newLeft = vw.value / 2 - offsetWidth / 2
+    const newTop = vh.value / 2 - offsetHeight / 2
+    // 更新缓存值 fix 动画从上次缓存位置跳动的问题
+    cacheLeftTop.left = newLeft;
+    cacheLeftTop.top = newTop;
+    return {
+      left: newLeft,
+      top: newTop
+    }
+  }
+})
 const aniShow = (toLeft: number, toTop: number) => {
   if (!triggerRef.value) return
   // trigger 元素的位置

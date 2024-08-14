@@ -1,11 +1,11 @@
-<script lang='ts' setup>
-import { users } from '@/mock/placeholder-data';
+<script lang="ts" setup>
+import { users } from '@/mock/placeholder-data'
 </script>
 <template>
-    <div class="mt-6 flow-root">
-        <div class="inline-block min-w-full align-middle">
-            <div class="rounded-lg bg-gray-50 p-2 md:pt-0">
-                <!-- <div class="md:hidden">
+  <div class="mt-6 flow-root">
+    <div class="inline-block min-w-full align-middle">
+      <div class="rounded-lg bg-background-secondary p-2 md:pt-0">
+        <!-- <div class="md:hidden">
               <div
                 v-for="user in users"
                 :key="user.id"
@@ -41,58 +41,54 @@ import { users } from '@/mock/placeholder-data';
                 </div>
               </div>
           </div> -->
-                <table class="hidden min-w-full text-gray-900 md:table">
-                    <thead class="rounded-lg text-left text-sm font-normal">
-                        <tr>
-                            <th scope="col" class="px-4 py-5 font-medium sm:pl-6">
-                                Name
-                            </th>
-                            <th scope="col" class="px-3 py-5 font-medium">
-                                Email
-                            </th>
-                            <th scope="col" class="px-3 py-5 font-medium">
-                                Address
-                            </th>
-                            <th scope="col" class="px-3 py-5 font-medium">Favorite Color</th>
-                            <th scope="col" class="px-3 py-5 font-medium">Favorite Fruit</th>
-                            <th scope="col" class="px-3 py-5 font-medium">
-                                Date
-                            </th>
-                            <!-- <th scope="col" class="px-3 py-5 font-medium">
+        <table class="hidden min-w-full md:table">
+          <thead class="rounded-lg text-left text-sm font-normal">
+            <tr>
+              <th scope="col" class="px-4 py-5 font-medium sm:pl-6">Name</th>
+              <th scope="col" class="px-3 py-5 font-medium">Email</th>
+              <th scope="col" class="px-3 py-5 font-medium">Address</th>
+              <th scope="col" class="px-3 py-5 font-medium">Favorite Color</th>
+              <th scope="col" class="px-3 py-5 font-medium">Favorite Fruit</th>
+              <th scope="col" class="px-3 py-5 font-medium">Date</th>
+              <!-- <th scope="col" class="px-3 py-5 font-medium">
                   Status
                 </th> -->
-                            <!-- <th scope="col" class="relative py-3 pl-6 pr-3">
+              <!-- <th scope="col" class="relative py-3 pl-6 pr-3">
                   <span class="sr-only">Edit</span>
                 </th> -->
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                        <tr v-for="user in users" :key="user.id"
-                            class="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
-                            <td class="whitespace-nowrap py-3 pl-6 pr-3">
-                                <div class="flex items-center gap-3">
-                                    <img :src="user.image_url" class="rounded-full" width='28' height='28'
-                                        :alt="`${user.name}'s profile picture`" />
-                                    <p>{{user.name}}</p>
-                                </div>
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-3">
-                                {{user.email}}
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-3">
-                                ex omnis laudantium
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-3">
-                                <div class="bg-green-500 w-8 h-8 rounded-full"></div>
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-3">
-                                Apple
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-3">
-                                {{ user.date}}
-                                <!-- {{formatDateToLocal(user.date)}} -->
-                            </td>
-                            <!-- <td class="whitespace-nowrap px-3 py-3">
+            </tr>
+          </thead>
+          <tbody class="bg-background-primary">
+            <tr
+              v-for="user in users"
+              :key="user.id"
+              class="w-full border-b border-border py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+            >
+              <td class="whitespace-nowrap py-3 pl-6 pr-3">
+                <div class="flex items-center gap-3">
+                  <img
+                    :src="user.image_url"
+                    class="rounded-full"
+                    width="28"
+                    height="28"
+                    :alt="`${user.name}'s profile picture`"
+                  />
+                  <p>{{ user.name }}</p>
+                </div>
+              </td>
+              <td class="whitespace-nowrap px-3 py-3">
+                {{ user.email }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-3">ex omnis laudantium</td>
+              <td class="whitespace-nowrap px-3 py-3">
+                <div class="bg-green-500 w-8 h-8 rounded-full"></div>
+              </td>
+              <td class="whitespace-nowrap px-3 py-3">Apple</td>
+              <td class="whitespace-nowrap px-3 py-3">
+                {{ user.date }}
+                <!-- {{formatDateToLocal(user.date)}} -->
+              </td>
+              <!-- <td class="whitespace-nowrap px-3 py-3">
                     <InvoiceStatus status={user.status} />
                   </td>
                   <td class="whitespace-nowrap py-3 pl-6 pr-3">
@@ -101,10 +97,10 @@ import { users } from '@/mock/placeholder-data';
                       <DeleteInvoice id={user.id} />
                     </div>
                   </td> -->
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </template>

@@ -2,6 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-html,body{
-    overflow-x: hidden;
+html,
+body {
+  overflow-x: hidden;
+}
+
+@layer base {
+  /* --background-primary: 主要背景色，用于页面主体。
+    --background-secondary: 次要背景色，用于卡片、侧边栏等。
+    --foreground-primary: 主要前景色，用于重要文本。
+    --foreground-secondary: 次要前景色，用于普通文本。
+    --accent-primary: 主要强调色，用于按钮、链接等。
+    --accent-secondary: 次要强调色，用于悬停状态等。
+    --border-color: 边框颜色，用于分割线、输入框边框等。
+    --error-color: 错误提示色。
+    --shadow-color: 阴影颜色，用于卡片、弹出框等的阴影效果。 */
+
+  /* prettier-ignore-start */
+  :root {
+    /* Light theme (默认) */
+    --background-primary: 255 255 255;
+    --background-secondary: 241 241 241;
+    --foreground-primary: 0 0 0;
+    --foreground-secondary: 74 74 74;
+    --accent-primary: 59 130 246;
+    --accent-secondary: 29 78 216;
+    --border-color: 229 229 229;
+    --error-color: 239 65 70;
+    --shadow-color: 0 0 0;
+
+  }
+
+  [data-theme='dark'] {
+    /* Dark theme */
+    --background-primary: 27 27 27;
+    --background-secondary: 33 33 33;
+    --foreground-primary: 255 255 255;
+    --foreground-secondary: 197 197 210;
+    --accent-primary: 49 120 236;
+    --accent-secondary: 96 165 250;
+    --border-color: 74 75 83;
+    --error-color: 245 101 101;
+    --shadow-color: 0 0 0;
+  }
+  /* prettier-ignore-end */
+
+  html,
+  .body {
+    @apply bg-background-primary text-foreground-primary;
+    transition: background-color .2s ease;
+  }
 }

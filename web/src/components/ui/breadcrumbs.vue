@@ -10,13 +10,13 @@ defineProps<{
 }>()
 </script>
 <template>
-  <nav aria-label="Breadcrumb" class="mb-6 block">
+  <nav aria-label="Breadcrumb" class="mb-6 block font-serif">
     <ol class="flex text-xl md:text-2xl">
       <li
         v-for="(breadcrumb, index) in breadcrumbs"
         :key="breadcrumb.href"
         :class="
-          clsx(breadcrumb.active || false ? 'text-gray-900' : 'text-gray-500')
+          clsx(breadcrumb.active || false ? 'text-accent-secondary' : 'text-border')
         "
       >
         <RouterLink :to="breadcrumb.href">{{breadcrumb.label}}</RouterLink>

@@ -2,6 +2,9 @@
 import SearchBar from '@/components/ui/home-page/search-bar.vue';
 import CreateNewUser from '@/components/ui/home-page/create-new-user.vue';
 import Table from '@/components/ui/home-page/table.vue';
+import { useRoute } from 'vue-router';
+const route = useRoute()
+document.title = "Users"
 </script>
 
 <template>

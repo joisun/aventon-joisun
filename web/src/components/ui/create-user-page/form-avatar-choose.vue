@@ -1,8 +1,9 @@
 <script lang='ts' setup>
 import { ref } from 'vue';
 import PopDialog from '../pop-dialog.vue';
+import AvatarPicker from '@/components/avatar-picker.vue';
 import Button from '../Button.vue';
-const showModal = ref(false)
+const showModal = ref(true)
 const handleConfirm = ()=>{
     console.log("con")
     showModal.value = false
@@ -14,12 +15,12 @@ const handleClose = ()=>{
 
 <template>
     
-    <PopDialog v-model="showModal" @confirm="handleConfirm" @close="handleClose">
+    <PopDialog title="Choose Avatar" v-model="showModal" @confirm="handleConfirm" @close="handleClose" class="w-5/6 lg:w-1/4">
         <template #trigger>
             <Button @click="showModal = true">show modal</Button>
         </template>
         <template #content>
-            <div class="w-52 h-52 bg-red-100">Provident aliquid neque molestiae rerum sequi amet doloremque.</div>
+            <AvatarPicker/>
         </template>
     </PopDialog>
 </template>

@@ -1,19 +1,31 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { CloseIcon } from '../icons'
 import Button from './Button.vue'
+import { useViewport } from '@/hooks/useViewport'
+
+const { vh, vw } = useViewport()
+const dialogPosition = computed(() => {
+  if (dialogRef.value) {
+    const { offsetHeight, offsetWidth } = dialogRef.value
+    return {
+      left: vw.value / 2 - offsetWidth / 2,
+      top: vh.value / 2 - offsetHeight / 2,
+    }
+  }
+})
 
 defineOptions({
-  inheritAttrs: false
+  inheritAttrs: false,
 })
 defineProps<{
-    title?: string
+  title?: string
 }>()
 
 const triggerRef = ref<null | HTMLDivElement>(null)
 const dialogRef = ref<null | HTMLDialogElement>(null)
 const cacheLeftTop = { left: 0, top: 0 } // 缓存dialog 展开时的位置，用于动画关闭的起始状态
-const aniDuration = 500 // 动画时长
+const aniDuration = 300 // 动画时长
 const delayCloseSwitcher = ref(false) // 延迟关闭，用于等待动画执行完毕
 const modelVisible = defineModel<boolean>({
   default: false,
@@ -78,7 +90,7 @@ const aniShow = (toLeft: number, toTop: number) => {
       ],
       {
         duration: aniDuration,
-        fill: 'forwards',
+        fill: 'none',
         easing: 'cubic-bezier(0.000, 0.760, 0.080, 0.980)', //https://matthewlein.com/tools/ceaser
       },
     )
@@ -113,19 +125,23 @@ const aniClose = () => {
     <slot name="trigger"></slot>
   </div>
   <teleport to="body" v-if="modelVisible || delayCloseSwitcher">
-    <div class="absolute mask inset-0 bg-black/10">
+    <div class="absolute mask inset-0 bg-black/40">
       <!-- top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -->
       <div
         ref="dialogRef"
         class="absolute origin-top-left min-w-[200px] min-h-[200px] bg-background-secondary rounded-lg overflow-hidden text-foreground-primary"
         :class="$attrs.class"
-        
+        :style="{
+            transform: `translate(${dialogPosition?.left}px, ${dialogPosition?.top}px)`,
+        }"
       >
         <slot name="header">
           <header
             class="h-12 border-b border-border p-2 flex justify-between items-center"
           >
-            <p class="text-foreground-primary font-medium" v-if="title">{{ title }}</p>
+            <p class="text-foreground-primary font-medium" v-if="title">
+              {{ title }} {{ dialogPosition?.left }} {{ dialogPosition?.top }}
+            </p>
             <Button
               @click="handleClose"
               class="!h-8 !w-8 !p-0 !bg-transparent hover:!border-foreground-secondary border !border-border"
@@ -139,7 +155,7 @@ const aniClose = () => {
         </main>
         <slot name="footer">
           <footer
-            class="absolute bottom-0 left-0 right-0 h-12 border-t border-border p-2 flex justify-end items-center"
+            class="left-0 right-0 h-12 border-t border-border p-2 flex justify-end items-center"
           >
             <Button @click="handleConfirm" class="!h-8">Confirm</Button>
           </footer>
@@ -148,4 +164,3 @@ const aniClose = () => {
     </div>
   </teleport>
 </template>
-<style lang="less" scoped></style>

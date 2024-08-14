@@ -30,7 +30,6 @@ body {
     --border-color: 229 229 229;
     --error-color: 239 65 70;
     --shadow-color: 0 0 0;
-
   }
 
   [data-theme='dark'] {
@@ -50,6 +49,30 @@ body {
   html,
   .body {
     @apply bg-background-primary text-foreground-primary;
-    transition: background-color .2s ease;
+    transition: background-color 0.2s ease;
+
+    /* scroll-bar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar:horizontal {
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-corner {
+      background: #fff;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c4c4c4;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #bbb;
+    }
   }
 }

@@ -59,11 +59,32 @@ export default {
           '88%': { transform: 'scale(1.03)' },
           '94%': { transform: 'scale(0.99)' },
           '100%': { transform: 'scale(1)' }
-        }
+        },
+        fadeLeft: {
+          '0%': {
+            opacity: 0,
+            transform: 'translate(2rem)'
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translate(0)'
+          }
+        },
+        fadeRight: {
+          '0%': {
+            opacity: 0,
+            transform: 'translate(-2rem)'
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translate(0)'
+          }
+        },
       },
       animation: {
         /*timefunction editor https://matthewlein.com/tools/ceaser */
-
+        fadeLeft: 'fadeLeft 1s both cubic-bezier(0,0,.2,1)',
+        fadeRight: 'fadeRight 1s both cubic-bezier(0,0,.2,1)',
         scaleInOut: 'scaleInOut 1s ease-in-out infinite',
         swingRotate: 'swingRotate 2s ease-out',
         slowDownRotate: 'slowDownRotate 2s cubic-bezier(0.005, 0.975, 0.120, 1.020) forwards',

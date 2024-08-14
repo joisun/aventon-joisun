@@ -1,5 +1,6 @@
 <script lang='ts' setup>
-import SearchIcon from '@/components/icons/search-icon.vue';
+import { SearchIcon } from '@/components/icons';
+
 defineProps<{
     placeholder?:string
 }>()

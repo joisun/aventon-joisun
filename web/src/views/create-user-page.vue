@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Breadcrumbs from '@/components/ui/breadcrumbs.vue'
-import CreateUserForm from '@/components/ui/create-form/create-user-form.vue'
+import CreateUserForm from '@/components/ui/create-user-page/create-user-form.vue'
 document.title = 'Create User'
 </script>
 <template>
@@ -14,5 +14,5 @@ document.title = 'Create User'
       },
     ]"
   />
-  <CreateUserForm />
+  <CreateUserForm class="w-full lg:w-5/6  mx-auto"/>
 </template>

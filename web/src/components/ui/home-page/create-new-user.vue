@@ -1,5 +1,5 @@
 <script lang='ts' setup>
-import PlusIcon from "@/components/icons/plus-icon.vue"
+import { PlusIcon } from '@/components/icons';
 </script>
 <template>
     <RouterLink to="/new"

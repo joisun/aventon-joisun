@@ -4,14 +4,14 @@ import ThemeSwitcher from '@/components/ui/theme-switcher.vue';
 </script>
 
 <template>
-  <header class="h-12 flex justify-between items-center px-12 bg-background-secondary font-serif">
+  <header class="h-12 flex justify-between items-center px-4 sm:px-12 bg-background-secondary font-serif overflow-hidden">
     <h1 class="font-semibold text-2xl">Aventon Joisun.</h1>
-    <ThemeSwitcher class="!w-20"/>
+    <ThemeSwitcher class="!w-20 !h-10"/>
   </header>
   <router-view v-slot="{ Component, route }">
     <transition :name="route.meta.transition as string || 'fade'">
       <div :key="route.path">
-        <main class="mt-4 font-sans container mx-auto">
+        <main class="mt-4 font-sans container mx-auto p-4">
           <component :is="Component" />
         </main>
       </div>

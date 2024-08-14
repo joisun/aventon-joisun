@@ -1,0 +1,6 @@
+export { default as EmailIcon } from './email-icon.vue'
+export { default as ForkIcon } from './fork-icon.vue'
+export { default as LocationIcon } from './location-icon.vue'
+export { default as PlusIcon } from './plus-icon.vue'
+export { default as SearchIcon } from './search-icon.vue'
+export { default as UserIcon } from './user-icon.vue'

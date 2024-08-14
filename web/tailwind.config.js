@@ -62,6 +62,8 @@ export default {
         }
       },
       animation: {
+        /*timefunction editor https://matthewlein.com/tools/ceaser */
+
         scaleInOut: 'scaleInOut 1s ease-in-out infinite',
         swingRotate: 'swingRotate 2s ease-out',
         slowDownRotate: 'slowDownRotate 2s cubic-bezier(0.005, 0.975, 0.120, 1.020) forwards',

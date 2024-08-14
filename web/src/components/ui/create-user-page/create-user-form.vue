@@ -3,6 +3,7 @@ import Button from '@/components/ui/Button.vue'
 import { z } from 'zod'
 import { reactive, ref } from 'vue'
 import FormField from './form-field.vue'
+import FormAvatarChoose from './form-avatar-choose.vue'
 import { UserIcon, ForkIcon, EmailIcon, LocationIcon } from '@/components/icons'
 
 const formData = reactive({
@@ -54,6 +55,7 @@ const handleSubmit = () => {
 <template>
   <form ref="form" class="w-full">
     <div class="rounded-md bg-background-secondary p-4 md:p-6 w-full">
+      <FormAvatarChoose/>
       <FormField
         placeholder="User name."
         label="User Name"
@@ -95,28 +97,19 @@ const handleSubmit = () => {
           <ForkIcon />
         </template>
       </FormField>
-      <!-- <div class="mb-4">
-        <label htmlFor="amount" class="mb-2 block text-sm font-medium">
-          User name
-        </label>
-        <div class="relative mt-2 rounded-md">
-          <div class="relative">
-            <input
-              id="amount"
-              name="amount"
-              type="text"
-              step="0.01"
-              placeholder="Enter user name"
-              autocomplete="off"
-              class="peer text-foreground-primary block w-full rounded-md border bg-background-primary border-border py-2 pl-10 text-sm outline-none outline-2 focus:outline-accent-secondary placeholder:text-border autofill:bg-background-primary"
-            />
-            <UserIcon
-              class="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-border peer-focus:text-foreground-secondary"
-            />
-          </div>
-        </div>
-      </div> -->
+      <FormField
+        placeholder="Any food like most? what about apple?"
+        label="Favorite Colors"
+        v-model="formData.f_food"
+        :error="errors.f_food?.[0]"
+      >
+        <template #prefix-icon>
+          <ForkIcon />
+        </template>
+      </FormField>
     </div>
+
+    <!-- operations -->
     <div class="mt-6 flex flex-col sm:flex-row justify-end gap-4">
       <RouterLink
         to="/"

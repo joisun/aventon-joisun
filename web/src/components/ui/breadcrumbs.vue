@@ -16,7 +16,7 @@ defineProps<{
         v-for="(breadcrumb, index) in breadcrumbs"
         :key="breadcrumb.href"
         :class="
-          clsx(breadcrumb.active || false ? 'text-accent-secondary' : 'text-border')
+          clsx(breadcrumb.active || false ? 'text-foreground-primary ' : 'text-foreground-secondary')
         "
       >
         <RouterLink :to="breadcrumb.href">{{breadcrumb.label}}</RouterLink>

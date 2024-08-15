@@ -24,10 +24,10 @@ body {
     --background-primary: 255 255 255;
     --background-secondary: 241 241 241;
     --foreground-primary: 0 0 0;
-    --foreground-secondary: 74 74 74;
-    --accent-primary: 59 130 246;
-    --accent-secondary: 29 78 216;
-    --border-color: 229 229 229;
+    --foreground-secondary: 144 144 144;
+    --accent-primary: 220 230 255;
+    --accent-secondary: 184 205 253;
+    --border-color: 210 210 210;
     --error-color: 239 65 70;
     --shadow-color: 0 0 0;
   }
@@ -37,9 +37,9 @@ body {
     --background-primary: 27 27 27;
     --background-secondary: 33 33 33;
     --foreground-primary: 255 255 255;
-    --foreground-secondary: 197 197 210;
-    --accent-primary: 49 120 236;
-    --accent-secondary: 96 165 250;
+    --foreground-secondary: 144 144 144;
+    --accent-primary: 47 59 85;
+    --accent-secondary: 57 71 102;
     --border-color: 74 75 83;
     --error-color: 245 101 101;
     --shadow-color: 0 0 0;

@@ -4,7 +4,7 @@ import ThemeSwitcher from '@/components/ui/theme-switcher.vue';
 </script>
 
 <template>
-  <header class="h-12 flex justify-between items-center px-4 sm:px-12 bg-background-secondary font-serif overflow-hidden">
+  <header class="h-12 flex justify-between items-center px-4  bg-background-secondary font-serif overflow-hidden">
     <h1 class="font-semibold text-2xl">Aventon Joisun.</h1>
     <ThemeSwitcher class="!w-20 !h-10"/>
   </header>

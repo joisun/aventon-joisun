@@ -18,8 +18,8 @@ model Users {
   email   String @unique
   name    String
   address String
-  avatar  String
-  f_color String
-  f_food  String
+  avatar  String?
+  f_color String?
+  f_food  String?
   date    String
 }

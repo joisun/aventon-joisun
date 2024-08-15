@@ -55,7 +55,7 @@ const handleSubmit = () => {
 <template>
   <form ref="form" class="w-full">
     <div class="rounded-md bg-background-secondary p-4 md:p-6 w-full">
-      <FormAvatarChoose/>
+      <FormAvatarChoose v-model="formData.avatar"/>
       <FormField
         placeholder="User name."
         label="User Name"

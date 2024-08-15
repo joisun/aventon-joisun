@@ -64,10 +64,7 @@ watch(
         delayCloseSwitcher.value = false
       }, aniDuration)
     }
-  },
-  {
-    immediate: true,
-  },
+  }
 )
 
 const { vh, vw } = useViewport()

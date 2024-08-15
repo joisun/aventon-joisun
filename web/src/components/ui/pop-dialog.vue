@@ -11,6 +11,7 @@ defineOptions({
 })
 defineProps<{
   title?: string
+  triggerClass?:string
 }>()
 
 const triggerRef = ref<null | HTMLDivElement>(null)
@@ -125,7 +126,7 @@ const aniClose = () => {
 }
 </script>
 <template>
-  <div class="inline-block" ref="triggerRef">
+  <div class="inline-block" :class="triggerClass" ref="triggerRef">
     <slot name="trigger"></slot>
   </div>
   <teleport to="body" v-if="modelVisible || delayCloseSwitcher">
@@ -133,7 +134,7 @@ const aniClose = () => {
       <!-- top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -->
       <div
         ref="dialogRef"
-        class="absolute origin-top-left min-w-[200px] min-h-[200px] bg-background-secondary rounded-lg overflow-hidden text-foreground-primary"
+        class="absolute origin-top-left min-w-[200px]  bg-background-secondary rounded-lg overflow-hidden text-foreground-primary"
         :class="$attrs.class"
         :style="{
             transform: `translate(${dialogPosition?.left}px, ${dialogPosition?.top}px)`,
@@ -143,8 +144,8 @@ const aniClose = () => {
           <header
             class="h-12 border-b border-border p-2 flex justify-between items-center"
           >
-            <p class="text-foreground-primary font-medium" v-if="title">
-              {{ title }} {{ dialogPosition?.left }} {{ dialogPosition?.top }}
+            <p class="text-foreground-primary font-medium">
+              {{ title }} 
             </p>
             <Button
               @click="handleClose"

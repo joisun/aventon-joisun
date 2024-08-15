@@ -12,7 +12,7 @@ import {
   LoadingIcon,
   ColorIcon
 } from '@/components/icons'
-import { createUserAPI } from '@/api/api'
+import { createUserAPI } from '@/api'
 import type { CreateUser } from '@/api/definitions'
 import { newDate } from '@/utils'
 const loading = ref(false)
@@ -70,7 +70,7 @@ const handleSubmit = () => {
     disabled.value = true
     createUserAPI({
       ...validatedFields.data,
-      date: newDate(),
+      date: new Date(),
     })
       .then((result) => {
         console.log('result', result)

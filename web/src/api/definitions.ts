@@ -6,7 +6,19 @@ export type User = {
   avatar?: string
   f_color?: string
   f_food?: string
-  date: string
+  date: Date
 }
 
 export type CreateUser = Omit<User, 'id'>
+
+
+export type QueryUserDto  = {
+  currentPage?: number //当前页索引
+  query: string // 查询字段
+  size?:number // 分页大小
+}
+
+export type QueryUsersByPage = {
+  total: number
+  data: User[]
+}

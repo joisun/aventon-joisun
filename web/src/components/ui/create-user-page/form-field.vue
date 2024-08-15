@@ -3,6 +3,7 @@ defineProps<{
   label: string
   placeholder?: string
   error?: string
+  disabled?: boolean
 }>()
 const model = defineModel()
 </script>
@@ -14,13 +15,14 @@ const model = defineModel()
     <div class="relative mt-2 rounded-md">
       <div class="relative">
         <input
+          :disabled="disabled"
           id="amount"
           name="amount"
           type="text"
           step="0.01"
           :placeholder="placeholder"
           autocomplete="off"
-          class="peer text-foreground-primary block w-full rounded-md border bg-background-primary border-border py-2 pl-10 text-sm outline-none outline-2 focus:outline-accent-secondary placeholder:text-border autofill:bg-background-primary"
+          class="peer transition-all disabled:bg-foreground-secondary/10 text-foreground-primary block w-full rounded-md border bg-background-primary border-border py-2 pl-10 text-sm outline-none outline-2 focus:outline-accent-secondary placeholder:text-border autofill:bg-background-primary"
           v-model="model"
         />
 

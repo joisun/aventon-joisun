@@ -3,9 +3,9 @@ import { ref } from 'vue'
 import PopDialog from '../pop-dialog.vue'
 import AvatarPicker from '@/components/avatar-picker.vue'
 import Button from '../Button.vue'
-// const props = defineProps<{
-//   defaultValue: string
-// }>()
+defineProps<{
+  disabled?: boolean
+}>()
 const showModal = ref(false)
 const selectedAvatar = defineModel()
 const handleConfirm = () => {
@@ -28,7 +28,7 @@ const handleClose = () => {
     <template #trigger>
       <div class="mb-4">
         <label class="mb-2 block text-sm font-medium">Avatar</label>
-        <Button class="bg-transparent border border-border hover:!bg-foreground-secondary/10 !text-5xl h-16 w-16" @click="showModal = true">{{ selectedAvatar }}</Button>
+        <Button :disabled="disabled" class="disabled:bg-foreground-secondary/10 bg-transparent border border-border hover:!bg-foreground-secondary/10 !text-5xl h-16 w-16" @click="showModal = true">{{ selectedAvatar }}</Button>
       </div>
     </template>
     <template #content>

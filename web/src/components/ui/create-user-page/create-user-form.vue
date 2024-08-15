@@ -14,7 +14,8 @@ import {
 import { createUserAPI } from '@/api/api'
 import type { CreateUser } from '@/api/definitions'
 import { newDate } from '@/utils'
-
+const loading = ref(false)
+const disabled = ref(false)
 const formData = reactive<CreateUser>({
   name: '',
   email: '',
@@ -57,7 +58,6 @@ const validate = () => {
   })
 }
 
-const loading = ref(false)
 const handleSubmit = () => {
   const validatedFields = validate()
   if (!validatedFields.success) {
@@ -66,6 +66,7 @@ const handleSubmit = () => {
   } else {
     resetErrors()
     loading.value = true
+    disabled.value = true
     createUserAPI({
       ...validatedFields.data,
       date: newDate(),
@@ -76,15 +77,17 @@ const handleSubmit = () => {
       .catch((error) => {})
       .finally(() => {
         loading.value = false
+        disabled.value = false
       })
   }
 }
 </script>
 <template>
-  <form ref="form" class="w-full" >
+  <form ref="form" class="w-full">
     <div class="rounded-md bg-background-secondary p-4 md:p-6 w-full">
-      <FormAvatarChoose v-model="formData.avatar" />
+      <FormAvatarChoose :disabled="disabled" v-model="formData.avatar" />
       <FormField
+        :disabled="disabled"
         placeholder="User name."
         label="User Name"
         v-model="formData.name"
@@ -96,6 +99,7 @@ const handleSubmit = () => {
       </FormField>
 
       <FormField
+        :disabled="disabled"
         placeholder="Please input user address."
         label="Address"
         v-model="formData.address"
@@ -106,6 +110,7 @@ const handleSubmit = () => {
         </template>
       </FormField>
       <FormField
+        :disabled="disabled"
         placeholder="email address"
         label="Email"
         v-model="formData.email"
@@ -116,6 +121,7 @@ const handleSubmit = () => {
         </template>
       </FormField>
       <FormField
+        :disabled="disabled"
         placeholder="Any food like most? what about apple?"
         label="Favorite Food"
         v-model="formData.f_food"
@@ -126,6 +132,7 @@ const handleSubmit = () => {
         </template>
       </FormField>
       <FormField
+        :disabled="disabled"
         placeholder="Any food like most? what about apple?"
         label="Favorite Colors"
         v-model="formData.f_food"
@@ -142,12 +149,19 @@ const handleSubmit = () => {
       <RouterLink
         to="/"
         class="flex sm:order-1 order-2 h-10 items-center justify-center rounded-lg bg-background-secondary px-4 text-sm font-medium border border-border text-foreground-primary transition-colors hover:bg-background-secondary/50 hover:text-foreground-secondary"
+        :class="[
+          disabled ? 'bg-foreground-secondary/10 pointer-events-none' : '',
+        ]"
       >
         Cancel
       </RouterLink>
-      <Button class="sm:order-2 order-1" @click="handleSubmit">
+      <Button
+        :disabled="disabled"
+        class="disabled:bg-foreground-secondary/10 sm:order-2 order-1 transition"
+        @click="handleSubmit"
+      >
         Create new user
-        <LoadingIcon class="animate-spin text-xl mx-1" />
+        <LoadingIcon class="animate-spin text-xl mx-1" v-if="loading" />
       </Button>
     </div>
   </form>

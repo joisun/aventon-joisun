@@ -1,5 +1,11 @@
 <script lang="ts" setup>
-import { users } from '@/mock/placeholder-data'
+import type { User } from '@/api/definitions';
+import { formatDateToLocal } from '@/utils';
+defineProps<{
+  users:User[],
+  loading: boolean
+  totalPage: number
+}>()
 </script>
 <template>
   <div class="mt-6 flow-root">
@@ -65,16 +71,9 @@ import { users } from '@/mock/placeholder-data'
               class="w-full border-b border-border py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
             >
               <td class="whitespace-nowrap py-3 pl-6 pr-3">
-                <div class="flex items-center gap-3">
-                  <img
-                    :src="user.image_url"
-                    class="rounded-full"
-                    width="28"
-                    height="28"
-                    :alt="`${user.name}'s profile picture`"
-                  />
-                  <p>{{ user.name }}</p>
-                </div>
+                <p class="flex items-center gap-3">
+                  <span class="text-2xl">{{ user.avatar }}</span><span>{{ user.name }}</span>
+                </p>
               </td>
               <td class="whitespace-nowrap px-3 py-3">
                 {{ user.email }}
@@ -85,7 +84,7 @@ import { users } from '@/mock/placeholder-data'
               </td>
               <td class="whitespace-nowrap px-3 py-3">Apple</td>
               <td class="whitespace-nowrap px-3 py-3">
-                {{ user.date }}
+                {{ formatDateToLocal(user.date) }}
                 <!-- {{formatDateToLocal(user.date)}} -->
               </td>
               <!-- <td class="whitespace-nowrap px-3 py-3">

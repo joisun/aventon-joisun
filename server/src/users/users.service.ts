@@ -57,7 +57,7 @@ export class UsersService {
         }),
         this.prisma.users.findMany({
         // https://www.prisma.io/docs/orm/prisma-client/queries/pagination#offset-pagination
-          skip: currentPage,// index
+          skip: (currentPage - 1) * size,// index
           take: size,// pagesize
           where: {
             OR: [

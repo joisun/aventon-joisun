@@ -10,6 +10,7 @@ import {
   EmailIcon,
   LocationIcon,
   LoadingIcon,
+  ColorIcon
 } from '@/components/icons'
 import { createUserAPI } from '@/api/api'
 import type { CreateUser } from '@/api/definitions'
@@ -135,11 +136,11 @@ const handleSubmit = () => {
         :disabled="disabled"
         placeholder="Any food like most? what about apple?"
         label="Favorite Colors"
-        v-model="formData.f_food"
-        :error="errors.f_food?.[0]"
+        v-model="formData.f_color"
+        :error="errors.f_color?.[0]"
       >
         <template #prefix-icon>
-          <ForkIcon />
+          <ColorIcon />
         </template>
       </FormField>
     </div>

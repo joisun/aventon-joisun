@@ -80,12 +80,13 @@ defineProps<{
               </td>
               <td class="whitespace-nowrap px-3 py-3">ex omnis laudantium</td>
               <td class="whitespace-nowrap px-3 py-3">
-                <div class="bg-green-500 w-8 h-8 rounded-full"></div>
+                <!-- TODO: Achieve Color Picker -->
+                <!-- <div class="bg-green-500 w-8 h-8 rounded-full"></div> -->
+                 <p>{{ user.f_color }}</p>
               </td>
-              <td class="whitespace-nowrap px-3 py-3">Apple</td>
+              <td class="whitespace-nowrap px-3 py-3">{{ user.f_food }}</td>
               <td class="whitespace-nowrap px-3 py-3">
-                {{ formatDateToLocal(user.date) }}
-                <!-- {{formatDateToLocal(user.date)}} -->
+                {{ user.date && formatDateToLocal(user.date) }}
               </td>
               <!-- <td class="whitespace-nowrap px-3 py-3">
                     <InvoiceStatus status={user.status} />

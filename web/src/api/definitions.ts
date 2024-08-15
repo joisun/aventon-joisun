@@ -6,7 +6,7 @@ export type User = {
   avatar?: string
   f_color?: string
   f_food?: string
-  date: Date
+  date: Date | null
 }
 
 export type CreateUser = Omit<User, 'id'>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Button from '@/components/ui/Button.vue'
+import PopDialog from '@/components/ui/pop-dialog.vue'
 import { z } from 'zod'
 import { reactive, ref } from 'vue'
 import FormField from './form-field.vue'
@@ -10,22 +11,30 @@ import {
   EmailIcon,
   LocationIcon,
   LoadingIcon,
-  ColorIcon
+  ColorIcon,
 } from '@/components/icons'
 import { createUserAPI } from '@/api'
 import type { CreateUser } from '@/api/definitions'
-import { newDate } from '@/utils'
+import { useRouter } from 'vue-router'
+// import { newDate } from '@/utils'
+const router = useRouter()
 const loading = ref(false)
 const disabled = ref(false)
-const formData = reactive<CreateUser>({
+const initialFormState = {
   name: '',
   email: '',
   address: '',
   avatar: '',
   f_color: '',
   f_food: '',
-  date: '',
-})
+  date: null,
+}
+const formData = reactive<CreateUser>({ ...initialFormState })
+function resetForm() {
+  Object.keys(formData).forEach((key) => {
+    (formData as any)[key] = (initialFormState as any)[key]
+  })
+}
 const errors = ref<{
   [x in keyof typeof formData]?: string[]
 }>({})
@@ -59,6 +68,54 @@ const validate = () => {
   })
 }
 
+// dialog related
+const dialog = reactive({
+  visible: false,
+  title: '',
+  message: '',
+  comfirmMsg: '',
+  cancelMsg: '',
+  closeResetMsg: '',
+  gobackMsg: '',
+  isErrorMsg: false,
+})
+
+type DialogType = typeof dialog
+type ShowContent = Partial<Omit<DialogType, 'visible'>> & {
+  isErrorMsg: boolean
+}
+const showDialog = (showContent: ShowContent) => {
+  const {
+    title,
+    message,
+    cancelMsg,
+    comfirmMsg,
+    isErrorMsg,
+    closeResetMsg,
+    gobackMsg,
+  } = showContent
+  dialog.title = title || ''
+  dialog.message = message || ''
+  dialog.cancelMsg = cancelMsg || ''
+  dialog.comfirmMsg = comfirmMsg || ''
+  ;(dialog.closeResetMsg = closeResetMsg || ''),
+    (dialog.gobackMsg = gobackMsg || ''),
+    (dialog.isErrorMsg = isErrorMsg)
+  dialog.visible = true
+}
+const closeDialog = () => (dialog.visible = false)
+const handleDialogConfirm = () => {
+  closeDialog()
+}
+const handleContinue = () => {
+  resetForm()
+  closeDialog()
+}
+const handleGoback = () => {
+  closeDialog()
+  router.push('/')
+}
+
 const handleSubmit = () => {
   const validatedFields = validate()
   if (!validatedFields.success) {
@@ -73,9 +130,23 @@ const handleSubmit = () => {
       date: new Date(),
     })
       .then((result) => {
-        console.log('result', result)
+        showDialog({
+          title: 'Success',
+          message: 'Create new user successfully.',
+          closeResetMsg: 'Continue',
+          gobackMsg: 'Ok and go back',
+          isErrorMsg: false,
+        })
       })
-      .catch((error) => {})
+      .catch((error) => {
+        showDialog({
+          title: 'Failed',
+          message: `Create new user failed. ${error}`,
+          comfirmMsg: 'I got it.',
+          isErrorMsg: true,
+        })
+        console.log('error', error)
+      })
       .finally(() => {
         loading.value = false
         disabled.value = false
@@ -98,7 +169,6 @@ const handleSubmit = () => {
           <UserIcon />
         </template>
       </FormField>
-
       <FormField
         :disabled="disabled"
         placeholder="Please input user address."
@@ -156,14 +226,65 @@ const handleSubmit = () => {
       >
         Cancel
       </RouterLink>
-      <Button
-        :disabled="disabled"
-        class="disabled:bg-foreground-secondary/10 sm:order-2 order-1 transition"
-        @click="handleSubmit"
+
+      <PopDialog
+        v-model="dialog.visible"
+        trigger-class="w-full sm:w-auto order-1 sm:order-2"
+        class="w-60"
       >
-        Create new user
-        <LoadingIcon class="animate-spin text-xl mx-1" v-if="loading" />
-      </Button>
+        <template #trigger>
+          <Button
+            :disabled="disabled"
+            class="disabled:bg-foreground-secondary/10 transition w-full sm:w-auto"
+            @click="handleSubmit"
+          >
+            Create new user
+            <LoadingIcon class="animate-spin text-xl mx-1" v-if="loading" />
+          </Button>
+        </template>
+        <template #header>
+          <div class="h-12 flex items-center px-4 font-medium">
+            {{ dialog.title }}
+          </div>
+        </template>
+        <template #content>
+          <div
+            class="h-auto px-4"
+            :class="[
+              dialog.isErrorMsg ? 'text-error' : 'text-foreground-secondary',
+            ]"
+          >
+            {{ dialog.message }}
+          </div>
+        </template>
+        <template #footer>
+          <div
+            class="h-auto p-4 flex flex-col gap-2 justify-center items-center"
+          >
+            <Button
+              v-if="dialog.closeResetMsg"
+              @click="handleContinue"
+              class="w-full bg-transparent border border-border hover:bg-foreground-primary/10"
+            >
+              {{ dialog.closeResetMsg }}
+            </Button>
+            <Button
+              v-if="dialog.closeResetMsg"
+              @click="handleGoback"
+              class="w-full"
+            >
+              {{ dialog.gobackMsg }}
+            </Button>
+            <Button
+              v-if="dialog.comfirmMsg"
+              @click="handleDialogConfirm"
+              class="w-full"
+            >
+              {{ dialog.comfirmMsg }}
+            </Button>
+          </div>
+        </template>
+      </PopDialog>
     </div>
   </form>
 </template>

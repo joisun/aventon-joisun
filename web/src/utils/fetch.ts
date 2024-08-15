@@ -15,7 +15,8 @@ export async function $fetchPost<D = any, T = any>(
     })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Request failed.');
     }
 
     return await response.json()

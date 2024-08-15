@@ -3,8 +3,10 @@ export type User = {
   name: string
   email: string
   address: string
-  avatar: string
-  f_color: string
-  f_food: string
+  avatar?: string
+  f_color?: string
+  f_food?: string
   date: string
 }
+
+export type CreateUser = Omit<User, 'id'>

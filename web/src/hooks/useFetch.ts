@@ -1,22 +1,18 @@
-// useFetchPost.ts
 import { ref, type UnwrapRef } from 'vue'
 
-export function useFetchPost<T = any>() {
+// D for request DataType , T for response 
+export function useFetchPost<D = any, T = any>(url: string, postData: D) {
   const data = ref<T | null>(null)
   const error = ref<Error | null>(null)
   const loading = ref<boolean>(false)
 
-  async function fetchPost<D = any>(url: string, postData: D): Promise<void> {
-    loading.value = true
-    error.value = null
-    data.value = null
-
+  start()
+  async function start() {
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(postData),
       })
@@ -36,7 +32,6 @@ export function useFetchPost<T = any>() {
   }
 
   return {
-    fetchPost,
     data,
     error,
     loading,

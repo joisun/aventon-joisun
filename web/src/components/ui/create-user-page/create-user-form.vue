@@ -4,19 +4,32 @@ import { z } from 'zod'
 import { reactive, ref } from 'vue'
 import FormField from './form-field.vue'
 import FormAvatarChoose from './form-avatar-choose.vue'
-import { UserIcon, ForkIcon, EmailIcon, LocationIcon } from '@/components/icons'
+import {
+  UserIcon,
+  ForkIcon,
+  EmailIcon,
+  LocationIcon,
+  LoadingIcon,
+} from '@/components/icons'
+import { createUserAPI } from '@/api/api'
+import type { CreateUser } from '@/api/definitions'
+import { newDate } from '@/utils'
 
-const formData = reactive({
+const formData = reactive<CreateUser>({
   name: '',
   email: '',
   address: '',
   avatar: '',
   f_color: '',
   f_food: '',
+  date: '',
 })
 const errors = ref<{
   [x in keyof typeof formData]?: string[]
 }>({})
+const resetErrors = () => {
+  errors.value = {}
+}
 const FormSchema = z.object({
   id: z.string(),
   name: z.string().min(1, {
@@ -29,33 +42,48 @@ const FormSchema = z.object({
   address: z.string().min(1, {
     message: 'Please input address.',
   }),
-  avatar: z.string(),
-  f_color: z.string(),
-  f_food: z.string(),
+  avatar: z.string().optional(),
+  f_color: z.string().optional(),
+  f_food: z.string().optional(),
   date: z.string(),
 })
 const CreateNewUser = FormSchema.omit({
   id: true,
   date: true,
-  avatar: true,
-  f_color: true,
-  f_food: true,
 })
-
-const handleSubmit = () => {
-  const validatedFields = CreateNewUser.safeParse({
+const validate = () => {
+  return CreateNewUser.safeParse({
     ...formData,
   })
+}
+
+const loading = ref(false)
+const handleSubmit = () => {
+  const validatedFields = validate()
   if (!validatedFields.success) {
     errors.value = validatedFields.error.flatten().fieldErrors
+    return
+  } else {
+    resetErrors()
+    loading.value = true
+    createUserAPI({
+      ...validatedFields.data,
+      date: newDate(),
+    })
+      .then((result) => {
+        console.log('result', result)
+      })
+      .catch((error) => {})
+      .finally(() => {
+        loading.value = false
+      })
   }
-  console.log('validatedFields', errors.value)
 }
 </script>
 <template>
-  <form ref="form" class="w-full">
+  <form ref="form" class="w-full" >
     <div class="rounded-md bg-background-secondary p-4 md:p-6 w-full">
-      <FormAvatarChoose v-model="formData.avatar"/>
+      <FormAvatarChoose v-model="formData.avatar" />
       <FormField
         placeholder="User name."
         label="User Name"
@@ -113,11 +141,14 @@ const handleSubmit = () => {
     <div class="mt-6 flex flex-col sm:flex-row justify-end gap-4">
       <RouterLink
         to="/"
-        class="flex sm:order-1  order-2 h-10 items-center justify-center rounded-lg bg-background-secondary px-4 text-sm font-medium border border-border text-foreground-primary transition-colors hover:bg-background-secondary/50 hover:text-foreground-secondary"
+        class="flex sm:order-1 order-2 h-10 items-center justify-center rounded-lg bg-background-secondary px-4 text-sm font-medium border border-border text-foreground-primary transition-colors hover:bg-background-secondary/50 hover:text-foreground-secondary"
       >
         Cancel
       </RouterLink>
-      <Button class="sm:order-2 order-1" @click="handleSubmit">Create new user</Button>
+      <Button class="sm:order-2 order-1" @click="handleSubmit">
+        Create new user
+        <LoadingIcon class="animate-spin text-xl mx-1" />
+      </Button>
     </div>
   </form>
 </template>

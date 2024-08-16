@@ -15,12 +15,13 @@ jobs:
       - name: Set package manager
         uses: pnpm/action-setup@v4
         with:
-            version: 8
+          version: 8
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "pnpm"
+          #   https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
           cache-dependency-path: |
             web/pnpm-lock.yaml
             server/pnpm-lock.yaml
@@ -49,7 +50,7 @@ jobs:
           cp -r ./web/dist/* output/web
           cp -r ./server/dist/* output/server
           cp ./server/package.json output/server
-          cp ./server/package-lock.json output/server
+          cp ./server/pnpm-lock.yaml output/server
           tar -czf app.tar.gz -C output .
       - name: Copy dists to AWS EC2
         uses: appleboy/scp-action@v0.1.7 #https://github.com/marketplace/actions/scp-command-to-transfer-files
@@ -58,10 +59,9 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           source: "./app.tar.gz"
-          target:
-            "${{ secrets.MOUNT_POINT }}/app.tar.gz"
+          target: "${{ secrets.MOUNT_POINT }}/app.tar.gz"
 
-        # Extract Dists on EC2 
+        # Extract Dists on EC2
       - name: Deploy on EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3 #https://github.com/marketplace/actions/ssh-remote-commands
         with:

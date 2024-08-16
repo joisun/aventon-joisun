@@ -2,11 +2,20 @@
 import type { User } from '@/api/definitions'
 import { EditIcon } from '@/components/icons'
 import { formatDateToLocal } from '@/utils'
+import Pagination from '@/components/ui/home-page/pagination.vue';
+import Button from '@/components/ui/Button.vue';
 defineProps<{
   users: User[]
   loading: boolean
   totalPage: number
 }>()
+const emit = defineEmits<{
+  (e:'currentPageChange', value: number ): void
+}>()
+const handleChange = (value:number)=>{
+  emit('currentPageChange', value)
+
+}
 </script>
 <template>
   <div class="mt-6 flow-root">
@@ -114,5 +123,6 @@ defineProps<{
         </tr>
       </tbody>
     </table>
+    <Pagination :totalPage="totalPage" @change="handleChange"/>
   </div>
 </template>

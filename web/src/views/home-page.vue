@@ -7,6 +7,7 @@ import { queryUsersByPageAPI } from '@/api'
 import { ref } from 'vue'
 import type { User } from '@/api/definitions'
 const route = useRoute()
+import { currentPage as _currentPage } from '@/store/pagination'
 document.title = 'Users'
 
 const loading = ref(false)
@@ -15,12 +16,12 @@ const disabled = ref(false)
 // for table
 const users = ref<User[]>([])
 const totalPage = ref(0)
+const queryVal = ref('')
 
-const handleSearchChange = (query: string) => {
+const startQuery = (query: string, currentPage: number = 1)=>{
   loading.value = true
   disabled.value = true
-
-  queryUsersByPageAPI({ query: query, size: 10 })
+  queryUsersByPageAPI({ query: query, size: 10, currentPage })
     .then((result) => {
       totalPage.value = result.total
       users.value = result.data
@@ -31,8 +32,17 @@ const handleSearchChange = (query: string) => {
       disabled.value = false
     })
 }
-handleSearchChange('')
+const handleSearchChange = (query: string, currentPage: number = 1) => {
+  _currentPage.value = 1
+  queryVal.value = query
+  startQuery(query)
+}
 
+const handleCurrentPageChange = (page: number) => {
+  startQuery(queryVal.value, page)
+}
+// init request while page load
+startQuery('')
 </script>
 
 <template>
@@ -50,7 +60,12 @@ handleSearchChange('')
         />
         <CreateNewUser />
       </div>
-      <Table :users="users" :loading="loading" :total-page="totalPage" />
+      <Table
+        @currentPageChange="handleCurrentPageChange"
+        :users="users"
+        :loading="loading"
+        :total-page="totalPage"
+      />
     </div>
   </main>
 </template>

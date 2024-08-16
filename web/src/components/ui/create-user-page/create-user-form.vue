@@ -32,7 +32,7 @@ const initialFormState = {
 const formData = reactive<CreateUser>({ ...initialFormState })
 function resetForm() {
   Object.keys(formData).forEach((key) => {
-    (formData as any)[key] = (initialFormState as any)[key]
+    ;(formData as any)[key] = (initialFormState as any)[key]
   })
 }
 const errors = ref<{
@@ -235,7 +235,7 @@ const handleSubmit = () => {
         <template #trigger>
           <Button
             :disabled="disabled"
-            class="disabled:bg-foreground-secondary/10 transition w-full sm:w-auto"
+            class="w-full sm:w-auto"
             @click="handleSubmit"
           >
             Create new user
@@ -263,8 +263,9 @@ const handleSubmit = () => {
           >
             <Button
               v-if="dialog.closeResetMsg"
+              variant="ghost"
               @click="handleContinue"
-              class="w-full bg-transparent border border-border hover:bg-foreground-primary/10"
+              class="w-full"
             >
               {{ dialog.closeResetMsg }}
             </Button>

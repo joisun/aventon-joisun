@@ -17,7 +17,7 @@ defineProps<{
 const triggerRef = ref<null | HTMLDivElement>(null)
 const dialogRef = ref<null | HTMLDialogElement>(null)
 const cacheLeftTop = { left: 0, top: 0 } // 缓存dialog 展开时的位置，用于动画关闭的起始状态
-const aniDuration = 300 // 动画时长
+const aniDuration = 600 // 动画时长
 const delayCloseSwitcher = ref(false) // 延迟关闭，用于等待动画执行完毕
 const modelVisible = defineModel<boolean>({
   default: false,

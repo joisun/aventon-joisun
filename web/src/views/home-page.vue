@@ -8,7 +8,7 @@ import { ref } from 'vue'
 import type { User } from '@/api/definitions'
 const route = useRoute()
 import { currentPage as _currentPage } from '@/store/pagination'
-document.title = 'Users'
+document.title = 'Joisun | Users'
 
 const loading = ref(false)
 const disabled = ref(false)

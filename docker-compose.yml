@@ -1,14 +1,58 @@
 services:
-  mysql:
+  web:
+    container_name: joi-web
+    restart: always
+    build:
+      context: ./web/
+      dockerfile: Dockerfile
+    env_file:
+      - path: ./server/.env
+    ports:
+      - 83:80
+    depends_on:
+      - server
+    volumes:
+      - /opt/joi_users_app/output/web:/usr/share/nginx/html
+    networks:
+      - joi-net
+
+  # 打包过程在 Github Actions 中已经完成，这里需要准备server运行容器，然后执行 prisma migrate deploy
+  server:
+    container_name: joi-server
+    restart: always
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    env_file:
+      - path: ./server/.env
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    volumes:
+      - /opt/joi_users_app/output/server:/app
+    working_dir: /app
+    # https://stackoverflow.com/a/52641495/24799634
+    command: >
+      /bin/sh -c "pnpm install &&
+                  pnpm run pri:deploy &&
+                  pm2-runtime start ecosystem.config.js && pm2 logs --raw > /dev/stdout"
+    networks:
+      - joi-net
+
+  db:
     image: mysql:8.0
-    container_name: mysql-for-prisma
+    container_name: joi-db
     env_file:
       - path: ./server/.env
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./server/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql-data:/var/lib/mysql
+      # - ./server/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
+    networks:
+      - joi-net
 
-volumes:
-  mysql_data:
+networks:
+  joi-net:
+    driver: bridge

@@ -1,0 +1,70 @@
+name: Deploy Joi-Users application
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+        # set node & pnpm
+      - name: Set package manager
+        uses: pnpm/action-setup@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+        # build web
+      - name: Install web dependencies
+        working-directory: ./web
+        run: pnpm install
+      - name: Build web application
+        working-directory: ./web
+        run: pnpm build
+
+        # build server
+      - name: Install server dependencies
+        working-directory: ./server
+        run: pnpm install
+      - name: Build server application
+        working-directory: ./server
+        run: pnpm run build
+
+        # Copy Dist to EC2
+      - name: Collect web and server build result
+        run: |
+          mkdir -p output/web
+          mkdir -p output/server
+          cp -r ./web/dist/* output/web
+          cp -r ./server/dist/* output/server
+          cp ./server/package.json output/server
+          cp ./server/package-lock.json output/server
+          tar -czf app.tar.gz -C output .
+      - name: Copy dists to AWS EC2
+        uses: appleboy/scp-action@v0.1.7 #https://github.com/marketplace/actions/scp-command-to-transfer-files
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "./app.tar.gz"
+          target:
+            "${{ secrets.MOUNT_POINT }}/app.tar.gz"
+
+        # Extract Dists on EC2 
+      - name: Deploy on EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3 #https://github.com/marketplace/actions/ssh-remote-commands
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          script: |
+            cd ${{ secrets.MOUNT_POINT }}
+            tar -xzf app.tar.gz -C .
+            docker-compose up -d

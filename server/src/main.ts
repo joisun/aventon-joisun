@@ -7,9 +7,8 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('API Joisun')
-    .setDescription('The Users API description')
+    .setDescription('The Users API description for Web Joisun')
     .setVersion('1.0')
-    // .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

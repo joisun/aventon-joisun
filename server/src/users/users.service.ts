@@ -1,10 +1,11 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma.service';
 import { Users, Prisma } from '@prisma/client';
 import { error } from 'console';
 import { QueryUserDto, QueryUsersByPage } from './dto/query-user.dto';
+import { PrismaClientKnownRequestError, PrismaClientValidationError } from '@prisma/client/runtime/library';
 // prisma error types
 // https://www.prisma.io/docs/orm/reference/error-reference#prismaclientvalidationerror
 // prisma error handling
@@ -24,11 +25,10 @@ export class UsersService {
     } catch (err) {
       console.log('err', err)
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        switch (err.code) {
-          case 'P2002':
-            throw new BadRequestException('Email should be unique.')
-          default:
-            throw new BadRequestException('Fields not match')
+        if (err.code === 'P2002') {
+          throw new BadRequestException('There is a unique constraint violation, a new user cannot be created with this email')
+        } else {
+          throw new BadRequestException('Might caused by the sumbitted data', { cause: new Error(), description: 'Error occured when create user' })
         }
       } else {
         throw new BadRequestException()
@@ -52,11 +52,11 @@ export class UsersService {
               { f_color: { contains: query } },
               { f_food: { contains: query } }
             ],
-  
+
           }
         }),
         this.prisma.users.findMany({
-        // https://www.prisma.io/docs/orm/prisma-client/queries/pagination#offset-pagination
+          // https://www.prisma.io/docs/orm/prisma-client/queries/pagination#offset-pagination
           skip: (currentPage - 1) * size,// index
           take: size,// pagesize
           where: {
@@ -76,7 +76,7 @@ export class UsersService {
 
       ])
 
-      const totalPages = Math.ceil(count / size) ;
+      const totalPages = Math.ceil(count / size);
 
       return { data: result, total: totalPages } as QueryUsersByPage
     } catch (err) {
@@ -87,19 +87,19 @@ export class UsersService {
 
 }
 
-  // findAll() {
-  //   return `This action returns all users`;
-  // }
+// findAll() {
+//   return `This action returns all users`;
+// }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
+// findOne(id: number) {
+//   return `This action returns a #${id} user`;
+// }
 
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
+// update(id: number, updateUserDto: UpdateUserDto) {
+//   return `This action updates a #${id} user`;
+// }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+// remove(id: number) {
+//   return `This action removes a #${id} user`;
+// }
 

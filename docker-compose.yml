@@ -34,7 +34,7 @@ services:
     working_dir: /app
     # https://stackoverflow.com/a/52641495/24799634
     command: >
-      /bin/sh -c "pnpm install &&
+      /bin/sh -c "pnpm install --only=production &&
                   pnpm run pri:deploy &&
                   pm2-runtime start ecosystem.config.js && pm2 logs --raw > /dev/stdout"
     networks:

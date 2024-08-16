@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           source: "./app.tar.gz"
-          target: "${{ secrets.MOUNT_POINT }}/app.tar.gz"
+          target: "${{ secrets.MOUNT_POINT }}"
 
         # Extract Dists on EC2
       - name: Deploy on EC2 via SSH

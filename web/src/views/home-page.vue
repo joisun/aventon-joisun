@@ -65,6 +65,7 @@ startQuery('')
         :users="users"
         :loading="loading"
         :total-page="totalPage"
+        v-if="totalPage"
       />
     </div>
   </main>

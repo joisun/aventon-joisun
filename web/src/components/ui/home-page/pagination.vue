@@ -21,7 +21,7 @@ import Button from '@/components/ui/Button.vue'
 import { ref } from 'vue'
 </script>
 <template>
-  <div className="flex w-full justify-center flex-nowrap my-2 select-none">
+  <div className="flex w-full justify-center flex-nowrap my-2 select-none" v-if="totalPage">
     <Button
       variant="ghost"
       class="!p-3"

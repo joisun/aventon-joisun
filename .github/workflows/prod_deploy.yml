@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: "20"
           cache: "pnpm"
+          cache-dependency-path: |
+            web/pnpm-lock.yaml
+            server/pnpm-lock.yaml
 
         # build web
       - name: Install web dependencies

@@ -3,12 +3,11 @@ import { ref, onMounted } from 'vue'
 // handlePreferChange: {
 //     (themeVal: 'light' | 'dark'): void
 //   }
+const isDark = ref(false)
 export function useTheme() {
-  const savedIsDark = localStorage.getItem('isDark') === 'true' ? true : false
-  // 如果有缓存偏好，就覆盖默认的系统偏好
-  const isDark = ref<boolean>(savedIsDark || getSystemTheme())
-  setTheme(isDark.value)
- 
+  const getCache = localStorage.getItem('isDark')
+  const savedIsDark = getCache  === 'true' ? true : getCache === 'false' ? false : null
+  setTheme( savedIsDark === null ? getSystemTheme() : savedIsDark)
 
   function getSystemTheme() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -29,8 +28,6 @@ export function useTheme() {
     .addEventListener('change', (event) => {
       const isPreferDark = event.matches
       setTheme(isPreferDark)
-      // 触发 prefer 系统主题变化的回调
-      // handlePreferChange(themeVal)
     })  
 
   return {

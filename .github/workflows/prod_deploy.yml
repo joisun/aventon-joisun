@@ -88,6 +88,7 @@ jobs:
           script: |
             cd ${{ secrets.MOUNT_POINT }}
             tar -xzf app.tar.gz -C .
+            ls -a
             export DATABASE_URL=${{ secrets.DATABASE_URL }}
             export MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
             export MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}

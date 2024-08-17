@@ -2,6 +2,9 @@
 import SearchBar from '@/components/ui/home-page/search-bar.vue'
 import CreateNewUser from '@/components/ui/home-page/create-new-user.vue'
 import Table from '@/components/ui/home-page/table.vue'
+import TableSkeleton from '@/components/ui/home-page/table-skeleton.vue'
+import EmptyPlaceholder from '@/components/ui/home-page/empty-placeholder.vue'
+
 import { useRoute } from 'vue-router'
 import { queryUsersByPageAPI } from '@/api'
 import { ref } from 'vue'
@@ -18,7 +21,7 @@ const users = ref<User[]>([])
 const totalPage = ref(0)
 const queryVal = ref('')
 
-const startQuery = (query: string, currentPage: number = 1)=>{
+const startQuery = (query: string, currentPage: number = 1) => {
   loading.value = true
   disabled.value = true
   queryUsersByPageAPI({ query: query, size: 10, currentPage })
@@ -60,13 +63,19 @@ startQuery('')
         />
         <CreateNewUser />
       </div>
-      <Table
+
+      <section class="overflow-hidden">
+        <Table
         @currentPageChange="handleCurrentPageChange"
         :users="users"
         :loading="loading"
         :total-page="totalPage"
-        v-if="totalPage"
-      />
+        v-if="totalPage && !loading"
+        class="animate-fadeUp"
+        />
+        <TableSkeleton v-if="loading" class="animate-fadeUp"/>
+        <EmptyPlaceholder v-if="!totalPage && !loading"/>
+      </section>
     </div>
   </main>
 </template>

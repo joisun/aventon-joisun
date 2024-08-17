@@ -10,3 +10,5 @@ export { default as ColorIcon } from './color-icon.vue'
 export { default as EditIcon } from './edit-icon.vue'
 export { default as LeftIcon } from './left-icon.vue'
 export { default as RightIcon } from './right-icon.vue'
+export { default as EmptyBoxIcon } from './empty-box-icon.vue'
+

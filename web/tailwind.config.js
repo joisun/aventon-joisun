@@ -60,6 +60,16 @@ export default {
           '94%': { transform: 'scale(0.99)' },
           '100%': { transform: 'scale(1)' }
         },
+        fadeUp: {
+          '0%': {
+            opacity: 0,
+            transform: 'translateY(2rem)'
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateY(0)'
+          }
+        },
         fadeLeft: {
           '0%': {
             opacity: 0,
@@ -80,10 +90,16 @@ export default {
             transform: 'translate(0)'
           }
         },
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
       },
       animation: {
         /*timefunction editor https://matthewlein.com/tools/ceaser */
         fadeLeft: 'fadeLeft 1s both cubic-bezier(0,0,.2,1)',
+        fadeUp: 'fadeUp .5s both cubic-bezier(0,0,.2,1)',
         fadeRight: 'fadeRight 1s both cubic-bezier(0,0,.2,1)',
         scaleInOut: 'scaleInOut 1s ease-in-out infinite',
         swingRotate: 'swingRotate 2s ease-out',

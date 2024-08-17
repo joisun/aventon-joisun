@@ -92,4 +92,5 @@ jobs:
             export DATABASE_URL=${{ secrets.DATABASE_URL }}
             export MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
             export MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
+            docker-compose down
             docker-compose up -d

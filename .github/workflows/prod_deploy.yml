@@ -49,6 +49,7 @@ jobs:
           mkdir -p output/server
           cp -r ./web/dist/* output/web
           cp -r ./server/dist/* output/server
+          cp -r ./server/prisma output/server
           cp ./server/package.json output/server
           cp ./server/pnpm-lock.yaml output/server
           tar -czf app.tar.gz -C output .

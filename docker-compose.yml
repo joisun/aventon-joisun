@@ -19,7 +19,6 @@ services:
   # 打包过程在 Github Actions 中已经完成，这里需要准备server运行容器，然后执行 prisma migrate deploy
   server:
     container_name: joi-server
-    user: "1000:1000" # try fix not able to delete folder duration scp by specify uid:gid
     restart: always
     build:
       context: ./server/
@@ -37,7 +36,7 @@ services:
     working_dir: /app
     # https://stackoverflow.com/a/52641495/24799634
     command: >
-      /bin/sh -c "pnpm install &&
+      /bin/sh -c "sudo pnpm install &&
                   npx prisma migrate deploy &&
                   pm2-runtime start ecosystem.config.js && pm2 logs --raw > /dev/stdout"
     # environment for prod, inject in Github Actions

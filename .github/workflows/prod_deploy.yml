@@ -43,6 +43,17 @@ jobs:
         run: pnpm run build
 
         # Copy Dist to EC2
+      - name: Delete Target Folder and Down the docker-compose first
+        uses: appleboy/ssh-action@v1.0.3 #https://github.com/marketplace/actions/ssh-remote-commands
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          script: |
+            sudo rm -rf ${{ secrets.MOUNT_POINT }} 
+            docker stop $(docker ps -q)
+
       - name: Collect web and server build result
         run: |
           mkdir -p output/web

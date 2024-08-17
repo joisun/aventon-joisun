@@ -31,6 +31,8 @@ services:
       - db
     volumes:
       - ~/joi_users_app/server:/app
+      - .pnpm-store:~/.app_dep_cache/.pnpm-store
+      - node_modules:~/.app_dep_cache/node_modules
     working_dir: /app
     # https://stackoverflow.com/a/52641495/24799634
     command: >

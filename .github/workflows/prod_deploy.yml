@@ -48,10 +48,12 @@ jobs:
           mkdir -p output/web
           mkdir -p output/server
           cp -r ./web/dist/* output/web
+          cp ./web/Dockerfile output/web
           cp -r ./server/dist/* output/server
           cp -r ./server/prisma output/server
           cp ./server/package.json output/server
           cp ./server/pnpm-lock.yaml output/server
+          cp ./server/Dockerfile output/server
           cp ./docker-compose.yml output/docker-compose.yml
           tar -czf app.tar.gz -C output .
       - name: Copy dists to AWS EC2

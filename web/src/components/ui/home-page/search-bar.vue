@@ -7,41 +7,21 @@ const emit = defineEmits<{
   (e: 'change', value: string): void
 }>()
 
-const props = defineProps<{
+defineProps<{
   placeholder?: string
   loading?: boolean
-  disabled?: boolean
 }>()
 
-const input = ref()
-const inputRef = ref()
-const inputModel = defineModel()
-
-const handleChange = trailingDebounce(() => {
-  inputModel.value = input.value
-  emit('change', input.value)
+const handleChange = trailingDebounce((e) => {
+  emit('change', e[0].target.value)
 }, 500)
-
-// 非disable 时 自动聚焦
-// watch(
-//   () => props.disabled,
-//   () => {
-//     // console.log('trigger')
-//     nextTick(() => {
-//       props.disabled === false && inputRef.value.focus()
-//     })
-//   },
-// )
 </script>
 <template>
   <div class="relative flex flex-1 flex-shrink-0">
     <label htmlFor="search" class="sr-only">Search</label>
     <input
-      ref="inputRef"
       autofocus
-      :disabled="disabled"
-      @input="(e) => handleChange(e)"
-      v-model="input"
+      @input="handleChange"
       class="peer disabled:bg-foreground-secondary/10 bg-background-secondary block w-full rounded-md border border-border py-[9px] pl-10 text-sm outline-2 placeholder:text-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-secondary"
       :placeholder="placeholder"
     />

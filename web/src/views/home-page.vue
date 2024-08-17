@@ -9,12 +9,10 @@ import { useRoute } from 'vue-router'
 import { queryUsersByPageAPI } from '@/api'
 import { ref } from 'vue'
 import type { User } from '@/api/definitions'
-const route = useRoute()
 import { currentPage as _currentPage } from '@/store/pagination'
 document.title = 'Joisun | Users'
 
 const loading = ref(false)
-const disabled = ref(false)
 
 // for table
 const users = ref<User[]>([])
@@ -23,7 +21,6 @@ const queryVal = ref('')
 
 const startQuery = (query: string, currentPage: number = 1) => {
   loading.value = true
-  disabled.value = true
   queryUsersByPageAPI({ query: query, size: 10, currentPage })
     .then((result) => {
       totalPage.value = result.total
@@ -32,7 +29,6 @@ const startQuery = (query: string, currentPage: number = 1) => {
     .catch((error) => {})
     .finally(() => {
       loading.value = false
-      disabled.value = false
     })
 }
 const handleSearchChange = (query: string, currentPage: number = 1) => {
@@ -56,7 +52,6 @@ startQuery('')
       </div>
       <div class="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <SearchBar
-          :disabled="disabled"
           :loading="loading"
           @change="handleSearchChange"
           placeholder="Search user information..."
@@ -64,17 +59,17 @@ startQuery('')
         <CreateNewUser />
       </div>
 
-      <section class="overflow-hidden">
+      <section class="overflow-hidden min-h-[500px]">
         <Table
-        @currentPageChange="handleCurrentPageChange"
-        :users="users"
-        :loading="loading"
-        :total-page="totalPage"
-        v-if="totalPage && !loading"
-        class="animate-fadeUp"
+          @currentPageChange="handleCurrentPageChange"
+          :users="users"
+          :loading="loading"
+          :total-page="totalPage"
+          v-if="totalPage && !loading"
+          class="animate-fadeUp"
         />
-        <TableSkeleton v-if="loading" class="animate-fadeUp"/>
-        <EmptyPlaceholder v-if="!totalPage && !loading"/>
+        <TableSkeleton v-if="loading" class="animate-fadeUp" />
+        <EmptyPlaceholder v-if="!totalPage && !loading" />
       </section>
     </div>
   </main>

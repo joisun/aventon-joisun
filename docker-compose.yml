@@ -27,8 +27,6 @@ services:
     #   - path: ./server/.env
     ports:
       - 4000:4000
-    depends_on:
-      - db
     volumes:
       - ~/joi_users_app/server:/app
       - ~/.app_dep_cache/.pnpm-store:/app/.pnpm-store
@@ -44,24 +42,6 @@ services:
       - DATABASE_URL
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
-    networks:
-      - joi-net
-
-  db:
-    image: mysql:8.0
-    container_name: joi-db
-    # env_file for dev
-    # env_file:
-    #   - path: ./server/.env
-    # environment for prod, inject in Github Actions  
-    environment:
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_DATABASE
-    volumes:
-      - ~/mysql-data:/var/lib/mysql
-      # - ./server/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "3306:3306"
     networks:
       - joi-net
 

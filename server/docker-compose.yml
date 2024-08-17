@@ -1,0 +1,19 @@
+# dev need mysql run locally
+services:
+   db:
+    image: mysql:8.0
+    container_name: joi-db
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+    volumes:
+      - ~/mysql-data:/var/lib/mysql
+      # - ./server/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - joi-net
+
+networks:
+  joi-net:
+    driver: bridge

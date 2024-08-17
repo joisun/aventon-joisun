@@ -49,6 +49,7 @@ jobs:
           mkdir -p output/server
           cp -r ./web/dist/* output/web
           cp ./web/Dockerfile output/web
+          cp ./web/nginx.conf output/web
           cp -r ./server/dist/* output/server
           cp -r ./server/prisma output/server
           cp ./server/package.json output/server

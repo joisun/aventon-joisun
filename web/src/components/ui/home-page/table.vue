@@ -20,7 +20,7 @@ const handleChange = (value:number)=>{
 <template>
   <div class="mt-6 flow-root">
     <!-- mobile -->
-    <div class="md:hidden rounded-lg">
+    <div class="lg:hidden rounded-lg">
       <div
         v-for="user in users"
         :key="user.id"
@@ -68,7 +68,7 @@ const handleChange = (value:number)=>{
     </div>
 
     <!-- pc -->
-    <table class="hidden min-w-full md:table">
+    <table class="hidden min-w-full lg:table">
       <thead class="rounded-lg text-left text-sm font-normal">
         <tr>
           <th scope="col" class="px-4 py-5 font-medium sm:pl-6">Name</th>

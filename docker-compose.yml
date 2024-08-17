@@ -12,7 +12,7 @@ services:
     depends_on:
       - server
     volumes:
-      - /opt/joi_users_app/output/web:/usr/share/nginx/html
+      - ~/joi_users_app/web:/usr/share/nginx/html
     networks:
       - joi-net
 
@@ -30,7 +30,7 @@ services:
     depends_on:
       - db
     volumes:
-      - /opt/joi_users_app/output/server:/app
+      - ~/joi_users_app/server:/app
     working_dir: /app
     # https://stackoverflow.com/a/52641495/24799634
     command: >

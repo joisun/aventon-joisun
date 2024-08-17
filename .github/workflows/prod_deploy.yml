@@ -15,11 +15,11 @@ jobs:
       - name: Set package manager
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.3.1
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "20.16.0"
           cache: "pnpm"
           #   https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
           cache-dependency-path: |

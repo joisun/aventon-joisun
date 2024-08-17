@@ -52,7 +52,7 @@ jobs:
           port: 22
           script: |
             sudo rm -rf ${{ secrets.MOUNT_POINT }} 
-            docker stop $(docker ps -q)
+            docker stop `$(docker ps -q)`
 
       - name: Collect web and server build result
         run: |

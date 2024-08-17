@@ -23,15 +23,15 @@ const handleChange = trailingDebounce(() => {
 }, 500)
 
 // 非disable 时 自动聚焦
-watch(
-  () => props.disabled,
-  () => {
-    // console.log('trigger')
-    nextTick(() => {
-      props.disabled === false && inputRef.value.focus()
-    })
-  },
-)
+// watch(
+//   () => props.disabled,
+//   () => {
+//     // console.log('trigger')
+//     nextTick(() => {
+//       props.disabled === false && inputRef.value.focus()
+//     })
+//   },
+// )
 </script>
 <template>
   <div class="relative flex flex-1 flex-shrink-0">

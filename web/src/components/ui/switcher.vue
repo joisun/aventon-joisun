@@ -29,7 +29,7 @@ const toggle = () => {
       <span
         :class="[
           `absolute -translate-x-[calc(100%+.6rem)] h-4 w-4 transform transition-all inline-flex justify-center items-center text-lg `,
-          switchValue ? 'left-full scale-150' : 'left-9 scale-150 ',
+          switchValue ? 'left-full scale-140' : 'left-9 scale-140',
         ]"
       >
         <span :class="[ switchValue ? 'animate-swingRotate' : 'animate-jellyScale']">

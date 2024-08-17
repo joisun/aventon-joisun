@@ -74,7 +74,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          rm: true # delete folder before upload new file, https://github.com/appleboy/scp-action/tree/v0.1.7/?tab=readme-ov-file#input-variables
+          # rm: true # delete folder before upload new file, https://github.com/appleboy/scp-action/tree/v0.1.7/?tab=readme-ov-file#input-variables
           source: "./app.tar.gz"
           target: "${{ secrets.MOUNT_POINT }}"
 

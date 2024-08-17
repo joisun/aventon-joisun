@@ -4,6 +4,9 @@ const emit = defineEmits<{
   (e: 'change', value: number): void
 }>()
 const handleChange = (val: number) => {
+  // do nothing if click current page index
+  if(currentPage.value === val) return;
+  
   currentPage.value = val
   emit('change', val)
 }

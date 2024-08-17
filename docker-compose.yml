@@ -19,6 +19,7 @@ services:
   # 打包过程在 Github Actions 中已经完成，这里需要准备server运行容器，然后执行 prisma migrate deploy
   server:
     container_name: joi-server
+    user: "1000:1000" # try fix not able to delete folder duration scp by specify uid:gid
     restart: always
     build:
       context: ./server/

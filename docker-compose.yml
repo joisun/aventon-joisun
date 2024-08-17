@@ -37,14 +37,24 @@ services:
       /bin/sh -c "pnpm install &&
                   pnpm run pri:deploy &&
                   pm2-runtime start ecosystem.config.js && pm2 logs --raw > /dev/stdout"
+    # environment for prod, inject in Github Actions
+    environment:
+      - DATABASE_URL
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
     networks:
       - joi-net
 
   db:
     image: mysql:8.0
     container_name: joi-db
+    # env_file for dev
     env_file:
       - path: ./server/.env
+    # environment for prod, inject in Github Actions  
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
     volumes:
       - ./mysql-data:/var/lib/mysql
       # - ./server/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql

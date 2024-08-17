@@ -52,6 +52,7 @@ jobs:
           cp -r ./server/prisma output/server
           cp ./server/package.json output/server
           cp ./server/pnpm-lock.yaml output/server
+          cp ./docker-compose.yml output/docker-compose.yml
           tar -czf app.tar.gz -C output .
       - name: Copy dists to AWS EC2
         uses: appleboy/scp-action@v0.1.7 #https://github.com/marketplace/actions/scp-command-to-transfer-files
@@ -74,4 +75,7 @@ jobs:
           script: |
             cd ${{ secrets.MOUNT_POINT }}
             tar -xzf app.tar.gz -C .
+            export DATABASE_URL=${{ secrets.DATABASE_URL }}
+            export MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+            export MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
             docker-compose up -d

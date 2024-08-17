@@ -35,7 +35,7 @@ services:
     # https://stackoverflow.com/a/52641495/24799634
     command: >
       /bin/sh -c "pnpm install &&
-                  pnpm run pri:deploy &&
+                  npx prisma deploy &&
                   pm2-runtime start ecosystem.config.js && pm2 logs --raw > /dev/stdout"
     # environment for prod, inject in Github Actions
     environment:

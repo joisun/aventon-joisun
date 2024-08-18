@@ -1,19 +1,22 @@
 <script lang="ts" setup>
-import { currentPage, lastCachedPage } from '@/store/pagination';
+import { LeftIcon, RightIcon } from '@/components/icons'
+import Button from '@/components/ui/Button.vue'
+import { currentPage, lastCachedPage } from '@/store/pagination'
+import { computed, ref, watch } from 'vue'
 const emit = defineEmits<{
   (e: 'change', value: number): void
 }>()
 const handleChange = (val: number) => {
   // do nothing if click current page index
-  if(currentPage.value === val) return;
-  
+  if (currentPage.value === val) return
+
   // cache before change
   lastCachedPage.value = currentPage.value
   currentPage.value = val
   emit('change', val)
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     totalPage?: number
   }>(),
@@ -21,12 +24,25 @@ withDefaults(
     totalPage: 0,
   },
 )
-import { RightIcon, LeftIcon } from '@/components/icons'
-import Button from '@/components/ui/Button.vue'
-import { ref } from 'vue'
+
+const MAX_ITEMS = 5
+
+const indicators = computed(() => {
+  const initials = Array.from({ length: MAX_ITEMS }, (_, index) => index + 1)
+  const offset = currentPage.value - 1 // 1 for init page value
+  if(currentPage.value > MAX_ITEMS){
+    return initials.map((i) => i + offset - MAX_ITEMS + 1)
+  }else{
+    return initials
+  }
+})
+
 </script>
 <template>
-  <div className="flex w-full justify-center flex-nowrap my-2 select-none" v-if="totalPage">
+  <div
+    className="flex w-full justify-center flex-nowrap my-2 select-none"
+    v-if="totalPage"
+  >
     <Button
       variant="ghost"
       class="!p-3"
@@ -37,7 +53,6 @@ import { ref } from 'vue'
       <LeftIcon class="text-xl" />
     </Button>
 
-    <!-- TODO: 有时间优化一下，如果数据过多，这里应该神略显示， 而不是全部 -->
     <div class="single-wrapper flex mx-4">
       <Button
         variant="ghost"
@@ -46,14 +61,17 @@ import { ref } from 'vue'
         @click="handleChange(i)"
         :class="{
           '!bg-accent-primary': currentPage === i,
-          'rounded-l-lg border-r-1': i === 1,
-          'rounded-r-lg border-r-1': i === totalPage,
-          'border-r-0': i !== 1 && i !== totalPage,
+          'rounded-l-lg border-r-1': i === indicators[0],
+          'rounded-r-lg border-r-1': i === indicators[indicators.length - 1],
+          'border-r-0': i !== 1 && i !== indicators[indicators.length - 1],
         }"
-        v-for="i in totalPage"
+        v-for="i in indicators"
       >
         {{ i }}
       </Button>
+      <!-- <div class="ml-2 px-2 text-foreground-secondary flex justify-center items-center rounded-lg border border-border">
+        {{ totalPage }} in total.
+      </div> -->
     </div>
     <Button
       variant="ghost"
@@ -65,5 +83,6 @@ import { ref } from 'vue'
       <RightIcon class="text-xl" />
     </Button>
   </div>
+  <p class="text-center text-xs text-foreground-secondary">with {{ totalPage }} in total.</p>
 </template>
 <style lang="less" scoped></style>

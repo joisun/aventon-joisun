@@ -29,6 +29,7 @@ import { ref } from 'vue'
       variant="ghost"
       class="!p-3"
       :disabled="currentPage === 1"
+      aria-label="Go to last page"
       @click="handleChange(currentPage - 1)"
     >
       <LeftIcon class="text-xl" />
@@ -39,6 +40,7 @@ import { ref } from 'vue'
       <Button
         variant="ghost"
         class="rounded-none"
+        :aria-label="`Go to page ${i}`"
         @click="handleChange(i)"
         :class="{
           '!bg-accent-primary': currentPage === i,
@@ -54,6 +56,7 @@ import { ref } from 'vue'
     <Button
       variant="ghost"
       class="!p-3"
+      aria-label="Go to next page"
       :disabled="currentPage === totalPage"
       @click="handleChange(currentPage + 1)"
     >

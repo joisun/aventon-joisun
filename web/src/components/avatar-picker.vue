@@ -15,11 +15,11 @@ const handleSelect = (avatar: string)=>{
 
 <template>
   <div class="p-4">
-    <ol class="grid grid-cols-6 gap-1 sm:gap-2 md:gap-3 lg:gap-4">
+    <ol class="grid grid-cols-6 gap-1 sm:gap-2 md:gap-3 lg:gap-4 justify-items-center">
       <li
         v-for="(skin, key, index) in skins"
         :key="key"
-        class="flex aspect-square justify-center items-center cursor-pointer bg-foreground-secondary/20 hover:bg-foreground-secondary/40 p-1 sm:p-2 rounded-lg"
+        class="flex aspect-square min-w-10  min-h-10  justify-center items-center cursor-pointer bg-foreground-secondary/20 hover:bg-foreground-secondary/40 p-1 sm:p-2 rounded-lg"
         @click="
           last = current;
           current = key as string

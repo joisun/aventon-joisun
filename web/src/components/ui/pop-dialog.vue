@@ -130,7 +130,7 @@ const aniClose = () => {
     <slot name="trigger"></slot>
   </div>
   <teleport to="body" v-if="modelVisible || delayCloseSwitcher">
-    <div class="absolute mask inset-0 bg-black/40">
+    <div class="fixed mask inset-0 bg-black/40">
       <!-- top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -->
       <div
         ref="dialogRef"

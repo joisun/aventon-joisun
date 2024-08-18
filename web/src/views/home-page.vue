@@ -5,11 +5,11 @@ import Table from '@/components/ui/home-page/table.vue'
 import TableSkeleton from '@/components/ui/home-page/table-skeleton.vue'
 import EmptyPlaceholder from '@/components/ui/home-page/empty-placeholder.vue'
 
-import { useRoute } from 'vue-router'
 import { queryUsersByPageAPI } from '@/api'
 import { ref } from 'vue'
 import type { User } from '@/api/definitions'
-import { currentPage as _currentPage } from '@/store/pagination'
+import { resetPageIndex } from '@/store/pagination'
+import { QUERY_PAGE_SIZE } from '@/counts'
 document.title = 'Joisun | Users'
 
 const loading = ref(false)
@@ -19,9 +19,12 @@ const users = ref<User[]>([])
 const totalPage = ref(0)
 const queryVal = ref('')
 
+// animation control
+
 const startQuery = (query: string, currentPage: number = 1) => {
+
   loading.value = true
-  queryUsersByPageAPI({ query: query, size: 10, currentPage })
+  queryUsersByPageAPI({ query: query, size: QUERY_PAGE_SIZE, currentPage })
     .then((result) => {
       totalPage.value = result.total
       users.value = result.data
@@ -32,7 +35,7 @@ const startQuery = (query: string, currentPage: number = 1) => {
     })
 }
 const handleSearchChange = (query: string, currentPage: number = 1) => {
-  _currentPage.value = 1
+  resetPageIndex()
   queryVal.value = query
   startQuery(query)
 }
@@ -66,10 +69,9 @@ startQuery('')
           :loading="loading"
           :total-page="totalPage"
           v-if="totalPage && !loading"
-          class="animate-fadeUp"
         />
-        <TableSkeleton v-if="loading" class="animate-fadeUp" />
-        <EmptyPlaceholder v-if="!totalPage && !loading" />
+        <TableSkeleton :count="QUERY_PAGE_SIZE" v-if="loading" />
+        <EmptyPlaceholder  v-if="!totalPage && !loading" />
       </section>
     </div>
   </main>

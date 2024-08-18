@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { currentPage } from '@/store/pagination';
+import { currentPage, lastCachedPage } from '@/store/pagination';
 const emit = defineEmits<{
   (e: 'change', value: number): void
 }>()
@@ -7,6 +7,8 @@ const handleChange = (val: number) => {
   // do nothing if click current page index
   if(currentPage.value === val) return;
   
+  // cache before change
+  lastCachedPage.value = currentPage.value
   currentPage.value = val
   emit('change', val)
 }

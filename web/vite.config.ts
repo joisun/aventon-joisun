@@ -10,6 +10,11 @@ export default defineConfig({
   plugins: [
     vue(),
     cdn({
+      generateScriptTag: (name, url) => ({ 
+        attrs:{
+          defer: true
+        }
+       }),
       modules: [
         {
           name: 'vue',

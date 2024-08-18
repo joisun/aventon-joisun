@@ -28,6 +28,9 @@ const props = withDefaults(
 const MAX_ITEMS = 5
 
 const indicators = computed(() => {
+  if(props.totalPage < MAX_ITEMS){
+    return Array.from({ length: props.totalPage }, (_, index) => index + 1)
+  }
   const initials = Array.from({ length: MAX_ITEMS }, (_, index) => index + 1)
   const offset = currentPage.value - 1 // 1 for init page value
   if(currentPage.value > MAX_ITEMS){

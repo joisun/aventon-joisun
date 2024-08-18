@@ -1,1 +1,1 @@
-export const QUERY_PAGE_SIZE = 2
+export const QUERY_PAGE_SIZE = 7

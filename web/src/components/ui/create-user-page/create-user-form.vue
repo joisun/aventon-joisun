@@ -204,7 +204,7 @@ const handleSubmit = () => {
       </FormField>
       <FormField
         :disabled="disabled"
-        placeholder="Any food like most? what about apple?"
+        placeholder="Any food like most? what about skyblue?"
         label="Favorite Colors"
         v-model="formData.f_color"
         :error="errors.f_color?.[0]"

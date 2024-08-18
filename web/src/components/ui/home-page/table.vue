@@ -115,7 +115,7 @@ const handleChange = (value: number) => {
             <td class="whitespace-nowrap px-3 py-3">
               {{ user.email }}
             </td>
-            <td class="whitespace-nowrap px-3 py-3">ex omnis laudantium</td>
+            <td class="whitespace-nowrap px-3 py-3">{{ user.address }}</td>
             <td class="whitespace-nowrap px-3 py-3">
               <!-- TODO: Achieve Color Picker -->
               <!-- <div class="bg-green-500 w-8 h-8 rounded-full"></div> -->

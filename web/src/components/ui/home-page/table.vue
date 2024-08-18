@@ -40,7 +40,7 @@ const handleChange = (value:number)=>{
               <p class="flex justify-between items-center gap-3">
                 <span class="font-semibold">{{ user.name }}</span>
                 <!-- TODO: Edit Operation -->
-                <Button class="bg-foreground-secondary/20 hover:bg-foreground-secondary/30 rounded-lg text-foreground-secondary hover:text-foreground-primary p-2"><EditIcon/></Button>
+                <Button aria-label="Edit" class="bg-foreground-secondary/20 hover:bg-foreground-secondary/30 rounded-lg text-foreground-secondary hover:text-foreground-primary p-2"><EditIcon/></Button>
               </p>
               <p class="text-sm flex flex-col sm:flex-row">
                 <span>Email: {{ user.email }}</span>

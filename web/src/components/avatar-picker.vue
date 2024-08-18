@@ -19,14 +19,14 @@ const handleSelect = (avatar: string)=>{
       <li
         v-for="(skin, key, index) in skins"
         :key="key"
-        class="flex aspect-square min-w-10  min-h-10  justify-center items-center cursor-pointer bg-foreground-secondary/20 hover:bg-foreground-secondary/40 p-1 sm:p-2 rounded-lg"
+        class="flex h-10 w-10 sm:w-12  sm:h-12 shrink-0 justify-center items-center cursor-pointer bg-foreground-secondary/20 hover:bg-foreground-secondary/40  rounded-lg"
         @click="
           last = current;
           current = key as string
         "
       >
         <div
-        class="w-full h-full rounded-full transition-all"
+        class="w-4/5 h-4/5 rounded-full transition-all"
         :style="{ backgroundColor: key as string }"
         ></div>
       </li>
